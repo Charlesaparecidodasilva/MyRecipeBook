@@ -15,7 +15,7 @@ namespace CommomTestUtilities.Cryptography
 
             return new SqidsEncoder<long>(new()
             {
-                MinLength = 0,
+                MinLength = 3,
                 Alphabet = "MXoOilmeWjcGANEFhfspdaQtULPngxRyYrDbuCJqzvwkBKZSHITV"
 
             });                                        

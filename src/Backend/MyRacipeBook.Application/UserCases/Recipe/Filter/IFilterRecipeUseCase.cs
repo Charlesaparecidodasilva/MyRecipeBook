@@ -11,7 +11,7 @@ namespace MyRacipeBook.Application.UserCases.Recipe.Filter
     public interface IFilterRecipeUseCase
     {
 
-        public Task<ResponseRecipeJson> Execulte(RequestFilterRecipeJson request);
+        public Task<ResponseRecipesJson> Execulte(RequestFilterRecipeJson request);
 
     }
 }

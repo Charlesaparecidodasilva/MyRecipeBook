@@ -1,7 +1,7 @@
 ﻿
 using Bogus;
-using MyRecipebook.Domain.Entities;
-using MyRecipebook.Domain.Enum;
+
+using MyRecipebook.Comunication.Enum;
 using MyRecipeBook.Comunication.Request;
 
 namespace CommomTestUtilities.Request

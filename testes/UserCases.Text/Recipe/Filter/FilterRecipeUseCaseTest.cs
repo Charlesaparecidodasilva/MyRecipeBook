@@ -58,7 +58,7 @@ namespace UserCases.Test.Recipe.Filter
 
 
 
-        private static FilterRecipeUseCase CreateUseCase(
+        private static FilterRecipeUseCase CreateUseCase( 
             MyRecipebook.Domain.Entities.User user,
             IList<MyRecipebook.Domain.Entities.Recipe> recipe
             )

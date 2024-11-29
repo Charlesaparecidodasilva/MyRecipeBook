@@ -1,8 +1,10 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using FirebirdSql.Data.Services;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MyRacipeBook.Application.UserCases.Login.DoLogin;
 using MyRacipeBook.Application.UserCases.Recipe;
 using MyRacipeBook.Application.UserCases.Recipe.Filter;
+using MyRacipeBook.Application.UserCases.Recipe.GetById;
 using MyRacipeBook.Application.UserCases.User.ChangePassword;
 using MyRacipeBook.Application.UserCases.User.Profile;
 using MyRacipeBook.Application.UserCases.User.Register;
@@ -18,21 +20,32 @@ namespace MyRacipeBook.Application
         ///Essa classe injeta as depedencias.
         public static void AddApplication(this IServiceCollection services, IConfiguration configuration)
         {
-            AddAutoMapper(services, configuration);
+            AddAutoMapper(services);
+            AddIdEnconder(services, configuration);
             AddUseCase(services);        
         }
-        private static void AddAutoMapper(IServiceCollection services, IConfiguration configuration)
+        private static void AddAutoMapper(IServiceCollection services)
+        {
+                  
+            services.AddScoped(option => new AutoMapper.MapperConfiguration(autoMapperOptions =>
+            {
+                var sqids = option.GetService<SqidsEncoder<long>>()!;
+
+                autoMapperOptions.AddProfile(new AutoMapping(sqids));
+            }).CreateMapper()); 
+        }
+
+        private static void AddIdEnconder(IServiceCollection services, IConfiguration configuration)
         {
             var sqids = new SqidsEncoder<long>(new()
             {
                 MinLength = 3,
                 Alphabet = configuration.GetValue<string>("Settings:IdCryptographyAlphabet")!
-            });          
-            services.AddScoped(option => new AutoMapper.MapperConfiguration(options =>
-            {
-                options.AddProfile(new AutoMapping(sqids));
-            }).CreateMapper());
+            });
+
+            services.AddSingleton(sqids);
         }
+
 
         //Vejas só qui,  
         private static void AddUseCase(IServiceCollection services)
@@ -43,7 +56,8 @@ namespace MyRacipeBook.Application
             services.AddScoped<IUpdateUserUseCase, UpdateUserUseCase>();
             services.AddScoped<IChangePasswordUserCase, ChangePasswordUserCase>();
             services.AddScoped<IRegisteRecipeUseCase, RegisterRecipeUseCase>();
-            services.AddScoped<IFilterRecipeUseCase, FilterRecipeUseCase>();           
+            services.AddScoped<IFilterRecipeUseCase, FilterRecipeUseCase>();
+            services.AddScoped<IGetRecipeByIdUserCase, GetRecipeByIdUserCase>();
         }
 
       

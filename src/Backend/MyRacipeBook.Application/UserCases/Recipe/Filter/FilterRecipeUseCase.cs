@@ -30,7 +30,7 @@ namespace MyRacipeBook.Application.UserCases.Recipe.Filter
             _repository = repository;
         }
         
-        public async Task<ResponseRecipeJson> Execulte(RequestFilterRecipeJson request)
+        public async Task<ResponseRecipesJson> Execulte(RequestFilterRecipeJson request)
         {
             Validate(request);
             
@@ -46,7 +46,7 @@ namespace MyRacipeBook.Application.UserCases.Recipe.Filter
 
             var recipe = await _repository.Filter(loggedUser, filter);
 
-            return new ResponseRecipeJson
+            return new ResponseRecipesJson
             {
                 Recipes = _mapper.Map<List<ResponseShortRecipeJson>>(recipe)
             };
@@ -62,6 +62,9 @@ namespace MyRacipeBook.Application.UserCases.Recipe.Filter
             var result = validator.Validate(request);
         }
 
+         //{
+         //       Recipes = _mapper.Map<List<ResponseShortRecipeJson>>(recipe)
+         //};
 
 
 
@@ -69,7 +72,6 @@ namespace MyRacipeBook.Application.UserCases.Recipe.Filter
 
 
 
-
-    }
+}
 }
 

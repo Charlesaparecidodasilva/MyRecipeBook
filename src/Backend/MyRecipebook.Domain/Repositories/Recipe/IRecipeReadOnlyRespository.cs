@@ -12,5 +12,10 @@ namespace MyRecipebook.Domain.Repositories.Recipe
 
         Task<IList<Entities.Recipe>> Filter(Entities.User user, FilterRecipesDto filters);
 
+
+        Task<Entities.Recipe?> GetById(Entities.User user,  long recipeId);
+
+
+
     }
 }

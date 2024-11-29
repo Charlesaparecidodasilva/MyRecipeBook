@@ -1,4 +1,5 @@
-﻿using CommomTestUtilities.Entities;
+﻿using CommomTestUtilities.Cryptography;
+using CommomTestUtilities.Entities;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
@@ -20,34 +21,18 @@ namespace WebApi.Test
     {
         // Armazena uma entidade de usuário para uso nos testes.
         private MyRecipebook.Domain.Entities.User _user;
-
         private MyRecipebook.Domain.Entities.Recipe _recipe;
-
-        // Armazena a senha do usuário para uso nos testes.
         private string _password;
-
-        // Retorna o e-mail do usuário.
-        public string GetEmail() => _user.Email;
-
-        // Retorna a senha do usuário.
+        public string GetEmail() => _user.Email; 
         public string GetPassword() => _password;
-
-        // Retorna o nome do usuário.
-        public string GetName() => _user.Name;
-
-        // Retorna o identificador único do usuário (GUID).
+        public string GetName () => _user.Name;
+        public string GetRecipeId () => IdEncripterBuilder.Build().Encode(_recipe.Id);
         public Guid GetUserIdentifier() => _user.UserIdentifier;
-
         public string GetRecipeTitle() => _recipe.Title;
-
         public MyRecipebook.Domain.Enum.Difficulty GetRecipeDifficulty() => _recipe.Difficulty!.Value;
-
-        public MyRecipebook.Domain.Enum.CookingTime GetRecipeCookingTime() => _recipe.CookingTime!.Value;
-       
-
+        public MyRecipebook.Domain.Enum.CookingTime GetRecipeCookingTime() => _recipe.CookingTime!.Value;     
         public IList<MyRecipebook.Domain.Enum.DishType>? GetDishType() => _recipe.DishTypes.Select(c => c.Type).ToList();
        
-
         // Configura o host da aplicação para os testes.
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
@@ -96,8 +81,6 @@ namespace WebApi.Test
 
             //cria uma receita
             _recipe = RecipeBuilder.Build(_user);
-
-
 
             // Adiciona o usuário ao banco de dados.
             dbContext.Users.Add(_user);

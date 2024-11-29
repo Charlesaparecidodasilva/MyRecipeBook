@@ -168,6 +168,9 @@
   <data name="PASSWOR_IS_DIFERENT" xml:space="preserve">
     <value>The password is diferent</value>
   </data>
+  <data name="RECIPE NOT FOUND" xml:space="preserve">
+    <value>Recipe not found</value>
+  </data>
   <data name="RECIPY_TITLE_EMPTY" xml:space="preserve">
     <value>Recipy title empty.</value>
   </data>

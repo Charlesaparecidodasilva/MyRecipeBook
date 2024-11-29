@@ -2,7 +2,9 @@
 using Microsoft.EntityFrameworkCore.Internal;
 using MyRacipeBook.Application.UserCases.Recipe;
 using MyRacipeBook.Application.UserCases.Recipe.Filter;
+using MyRacipeBook.Application.UserCases.Recipe.GetById;
 using MyRecipeBook.API.Attributes;
+using MyRecipeBook.API.Binders;
 using MyRecipeBook.Comunication.Request;
 using MyRecipeBook.Comunication.Responses;
 
@@ -28,20 +30,38 @@ namespace MyRecipeBook.API.Controllers
 
         [HttpPost("filter")]
 
-        [ProducesResponseType(typeof(ResponseRecipeJson), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ResponseRecipesJson), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        
+
         public async Task<IActionResult> Filter(
             [FromServices] IFilterRecipeUseCase useCase,
-            [FromBody] RequestFilterRecipeJson request            
+            [FromBody] RequestFilterRecipeJson request
             )
         {
-            var resposta =  await useCase.Execulte(request);
+            var resposta = await useCase.Execulte(request);
 
             if (resposta.Recipes.Any())
                 return Ok(resposta);
-
+                
             return NoContent();
-        }      
+        }
+     
+        ///
+        [HttpGet]
+        [Route("{id}")]
+        [ProducesResponseType(typeof(ResponseRecipeJson), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ResponseErrorJason),StatusCodes.Status404NotFound)]
+
+        public async Task<IActionResult> GetById(
+             [FromServices] IGetRecipeByIdUserCase useCase,
+             [FromRoute] [ModelBinder(typeof(MyRecipeBookIdBinder))] long id )
+        {
+            var response = await useCase.Execute(id);
+
+            return Ok(response);
+        }
+       
+
+
     }
 }
