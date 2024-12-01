@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MyRacipeBook.Application.UserCases.Login.DoLogin;
 using MyRacipeBook.Application.UserCases.Recipe;
+using MyRacipeBook.Application.UserCases.Recipe.Delete;
 using MyRacipeBook.Application.UserCases.Recipe.Filter;
 using MyRacipeBook.Application.UserCases.Recipe.GetById;
 using MyRacipeBook.Application.UserCases.User.ChangePassword;
@@ -58,6 +59,7 @@ namespace MyRacipeBook.Application
             services.AddScoped<IRegisteRecipeUseCase, RegisterRecipeUseCase>();
             services.AddScoped<IFilterRecipeUseCase, FilterRecipeUseCase>();
             services.AddScoped<IGetRecipeByIdUserCase, GetRecipeByIdUserCase>();
+            services.AddScoped<IDeleteRecipeUserCase, DeleteRecipeUserCase>();
         }
 
       

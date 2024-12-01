@@ -23,6 +23,21 @@ namespace MyRecipeBook.API.Filter
                     parameter.Schema.Type = "string";
                 }
             }
+            foreach (var shema in context.SchemaRepository.Schemas.Values)
+            {
+                foreach (var property  in shema.Properties)
+                {
+                    if (encryptedIds.TryGetValue(property.Key, out var apiParameter))
+                    {
+                        property.Value.Format = string.Empty;   
+                        property.Value.Type = "string";
+
+                    }
+
+                }
+
+            }
+
         }
     }
 }
